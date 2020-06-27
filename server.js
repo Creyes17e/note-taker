@@ -1,38 +1,54 @@
+//Dependencies
 var path = require("path");
 var express = require("express");
+var fs = require("fs");
 
 var app = express();
 var PORT = process.env.PORT || 5000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
-//HTML ROUTES
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
-});
-
+//HTML Route
 app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "./public/notes.html"));
+  res.sendFile(path.join(__dirname, "public", "notes.html"));
 });
-
-//API ROUTES
-var notesData = require("./db/db.json");
-//GET
+//Parse notes
+var notesData = fs.readFileSync(path.join(__dirname, "db", "db.json"));
+var parsedNotes = JSON.parse(notesData);
+//API Route-Displays notes
 app.get("/api/notes", function (req, res) {
-  res.json(notesData);
+  const notes = [];
+  parsedNotes.forEach(function (note) {
+    notes.push(note);
+  });
+  res.json(notes);
 });
-//POST
+
+//HTML Route
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+//Creates a new note, taking in JSON input
 app.post("/api/notes", function (req, res) {
-  if (notesData) {
-    notesData.push(req.body);
-    res.json(true);
-  }
+  var newNote = req.body;
+
+  newNote.id = newNote.title.replace(/\s+/g, "").toLowerCase();
+  parsedNotes.push(newNote);
+  fs.writeFileSync(
+    path.join(__dirname, "db", "db.json"),
+    JSON.stringify(parsedNotes)
+  );
+  res.json(newNote);
+
+  console.log(newNote);
 });
 
-//DELETE
-app.post("/api/notes/:id", function (req, res) {});
+//Deletes any new note.
+app.delete("/api/notes/:id", function (req, res) {});
 
+//Starts the server to begin listening
 app.listen(PORT, function () {
   console.log("App listening on PORT" + PORT);
 });
