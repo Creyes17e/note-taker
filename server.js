@@ -46,7 +46,14 @@ app.post("/api/notes", function (req, res) {
 });
 
 //Deletes any new note.
-app.delete("/api/notes/:id", function (req, res) {});
+app.delete("/api/notes/:id", function (req, res) {
+  parsedNotes = parsedNotes.filter((note) => note.id !== req.params.id);
+  fs.writeFileSync(
+    path.join(__dirname, "db", "db.json"),
+    JSON.stringify(parsedNotes)
+  );
+  res.json(parsedNotes);
+});
 
 //Starts the server to begin listening
 app.listen(PORT, function () {
