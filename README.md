@@ -2,6 +2,8 @@
 
 # Live Site
 
+https://vast-shore-69093.herokuapp.com/
+
 ## Description
 
 An application that can be used to write, save, and delete notes.
@@ -20,7 +22,7 @@ Created a repo which included a gitignore, npm init, npm install express.
 
 ## Credits
 
-Google Fu, YouTube, Instructor, TAs, bootcamp activities.
+Star Wars App & Hot Restaurant Activities, Google Fu, YouTube, Instructor, TAs, bootcamp activities.
 
 ## License
 
