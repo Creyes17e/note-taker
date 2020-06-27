@@ -3,7 +3,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #000000;
+  background-image: url("./bgimg.jpeg");
 }
 
 .save-note {
@@ -71,4 +71,12 @@ body {
   border-right: none;
   padding: 20px;
   cursor: pointer;
+}
+h5 {
+  color: white;
+  text-align: center;
+}
+
+.jumbotron {
+  background-color: rgba(245, 245, 245, 0.644);
 }
